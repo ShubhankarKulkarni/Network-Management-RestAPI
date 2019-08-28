@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <title>DevOp Terminal</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <form id="ospf" action="{{url_for('configure_ospf_with_json')}}" method="POST">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-8">
+                        <h3>OSPF Configuration Terminal</h3>
+                        <br>
+                        <span id="output"></span>
+                        <h4>Routers</h4>
+                        <div class="form-group col-sm-12">                            
+                            <label for="select_router">Select Router</label>
+                            <select name="select_router" class="form-control">
+                                <option value="198.51.100.1" selected="selected">R1_Kulkarni</option>
+                                <option value="198.51.101.2">R2_Kulkarni</option>
+                                <option value="172.16.1.3">R3_Kulkarni</option>
+                                <option value="198.51.101.4">R4_Kulkarni</option>
+                            </select>
+                        </div>
+                        <br>
+                        <h4>Login Credentials</h4>
+                        <div class="form-group col-sm-12">
+                            <label for="ssh_username">User name</label>
+                            <input class="form-control" type="text" name="ssh_username" id="ssh_username"/>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <label for="ssh_password">Password</label>
+                            <input class="form-control" type="text" name="ssh_password" id="ssh_password"/>
+                        </div>
+                        <h4>OSPF Information</h4>
+                        <div class="form-group col-sm-12">
+                            <label for="ospf_process">OSPF Process ID</label>
+                            <input class="form-control" type="number" name="ospf_process" id="ospf_process"/>
+                        </div>
+                        <br>
+                        <div class="form-inline col-sm-12">
+                            <div class="form-group">
+                                <label for="loopback_ip">Loopback: IP</label>                    
+                                <input class="form-control" type="text" name="loopback_ip" id="loopback_ip"/>                            
+                            </div>
+                            <div class="form-group">
+                                <label for="loopback_wildmask">Wildcard Mask</label>                    
+                                <input class="form-control" type="text" name="loopback_wildmask" id="loopback_wildmask"/>                            
+                            </div>
+                            <div class="form-group">
+                                <label for="loopback_area">OSPF Area</label>                    
+                                <input class="form-control" type="number" name="loopback_area" id="loopback_area"/>                            
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-inline col-sm-12">
+                            <div class="form-group">
+                                <label for="network1_ip">Network 1: IP</label>                    
+                                <input class="form-control" type="text" name="network1_ip" id="network1_ip"/>                            
+                            </div>
+                            <div class="form-group">
+                                <label for="network1_wildmask">Wildcard Mask</label>                    
+                                <input class="form-control" type="text" name="network1_wildmask" id="network1_wildmask"/>                            
+                            </div>
+                            <div class="form-group">
+                                <label for="network1_area">OSPF Area</label>                    
+                                <input class="form-control" type="number" name="network1_area" id="network1_area"/>                            
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-inline col-sm-12">
+                            <div class="form-group">
+                                <label for="network2_ip">Network 2: IP</label>                    
+                                <input class="form-control" type="text" name="network2_ip" id="network2_ip"/>                            
+                            </div>
+                            <div class="form-group">
+                                <label for="network2_wildmask">Wildcard Mask</label>                    
+                                <input class="form-control" type="text" name="network2_wildmask" id="network2_wildmask"/>                            
+                            </div>
+                            <div class="form-group">
+                                <label for="network2_area">OSPF Area</label>                    
+                                <input class="form-control" type="number" name="network2_area" id="network2_area"/>                            
+                            </div>
+                        </div>
+                        <h4>Load Balancing</h4>
+                        <div class="form-group col-sm-12">
+                            <label for="ospf_maximum_path">Maximum Path</label>
+                            <input class="form-control" type="number" name="ospf_maximum_path" id="ospf_maximum_path"/>
+                        </div>
+                        <br>
+                        <input type="submit" value="Configure" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </div> 
+        </form>
+        <script>
+            (function() {
+                function toJSONString( form ) {
+                    var obj = {};
+                    var elements = form.querySelectorAll( "input, select" );
+                    for( var i = 0; i < elements.length; ++i ) {
+                        var element = elements[i];
+                        var name = element.name;
+                        var value = element.value;
+
+                        if( name ) {
+                            obj[ name ] = value;
+                        }
+                    }
+
+                    return JSON.stringify( obj );
+                }
+
+                document.addEventListener( "DOMContentLoaded", function() {
+                    var form = document.getElementById( "ospf" );
+                    var xhr = new XMLHttpRequest();
+                    form.addEventListener( "submit", function( e ) {
+                        e.preventDefault();
+                        var json = toJSONString( this );                        
+                        var url = "/OspfConfigJson"
+                        xhr.open("POST",url, true)
+                        xhr.setRequestHeader("Content-Type","application/json"); 
+
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200){
+                                document.getElementById("output").innerHTML = xhr.responseText
+                            }
+                        };
+
+                        xhr.send(json)
+                    }, false);
+                });
+            })();
+        </script>                
+    </body>
+</html>
+
+

@@ -1,0 +1,14 @@
+{
+    "TomcastR1":{
+        "username":"tomcastadmin",
+        "password":"tomcast@123",
+        "ipaddress":"198.51.100.10",
+        "networkdriver":"ios"
+    },
+    "TomcastR2":{
+        "username":"tomcastadmin",
+        "password":"tomcast@123",
+        "ipaddress":"198.51.100.20",
+        "networkdriver":"ios"
+    }
+}

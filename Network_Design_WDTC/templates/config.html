@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>WDTC NMS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <form enctype="multipart/form-data" method="POST" action="{{url_for('configure')}}">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <h4>Welcome to the Configuration Terminal</h4><br>
+                    <div class="form-group col-sm-3">
+                        <label for="ssh_ip">Destination IP</label>
+                        <input required class="form-control" type="text" id="ssh_ip" name="IP"/>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label for="isTomcast">Is Tomcast</label>
+                        <input class="form-control" type="checkbox" id="isTomcast" name="isTomcast"/>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label for="config_file">Choose Config File</label>
+                        <input required class="btn btn-primary" type="file" id="config_file" name="config_file"/><br>                           
+                    </div> 
+                    <br>                                 
+                    
+                </div>
+                <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-2">
+                        <input class="btn btn-primary" type="submit" value="Configure" id="submit"/>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-12" id="output">
+                        {% if running_config%}
+                            {{running_config}}
+                        {% endif %}  
+                    </div>
+                </div>                
+            </div>
+        </div> 
+        </form>       
+    </body>
+</html>

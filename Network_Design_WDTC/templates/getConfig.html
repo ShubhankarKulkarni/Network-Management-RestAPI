@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>WDTC NMS</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>
+            function getConfig(){
+                IP = document.getElementById("ssh_ip").value
+                isTomcast = document.getElementById("isTomcast").checked
+                document.getElementById("output").innerText = ""
+                $.ajax({
+                    url: "/GetConfig",
+                    data: {"IP":IP, "isTomcast": isTomcast},
+                    type: "GET",
+                    success: function(response){
+                        document.getElementById("output").innerText = response
+                    },
+                    error: function(error){
+                        console.log(error)
+                    }
+                });
+            }
+        </script>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12">
+                    <h4>WDTC Get Configuration Terminal</h4><br>
+                    
+                    <div class="form-group col-sm-3">
+                        <label for="ssh_ip">Destination IP</label>
+                        <input required class="form-control" type="text" id="ssh_ip" name="IP"/>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label for="isTomcast">Is Tomcast</label>
+                        <input class="form-control" type="checkbox" id="isTomcast" name="isTomcast"/>
+                    </div>
+                </div>
+                <div class="form-group col-sm-12">
+                    <div class="form-group col-sm-12">
+                        <input type="button" class="btn btn-primary" onclick="getConfig()" id="getConfigButton" value="Get Config File"/>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="col-sm-12" id="output"></div>
+                </div>                
+            </div>
+        </div>        
+    </body>
+</html>
